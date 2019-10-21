@@ -1,14 +1,11 @@
-# -*- coding: utf-8 -*-
+from scrapy.item import Item, Field
 
-# Define here the models for your scraped items
-#
-# See documentation in:
-# https://docs.scrapy.org/en/latest/topics/items.html
-
-import scrapy
-
-
-class DoubanItem(scrapy.Item):
-    # define the fields for your item here like:
-    # name = scrapy.Field()
-    pass
+class DoubanCrawlerItem(Item):
+    user_name = Field()
+    user_url = Field()
+    content = Field()
+    votes = Field()
+    user_status = Field()
+    rating = Field()
+    comment_time = Field()
+    comment_id = Field()
