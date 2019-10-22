@@ -21,11 +21,10 @@ class CommentsSpider(Spider):
 
         for url in urls:
             # self.pages.append(url)
-            yield Request(url=url, callback=self.parse_next_page, dont_filter=True)
+            yield Request(url=url, callback=self.parse_comments)
 
-    def parse_next_page(self, response):
-        # print(response.xpath('//a[@class="next"]/@href'))
-        _setDNSCache()
+    def parse_comments(self, response):
+        # _setDNSCache()
 
         # crawl comments
         comment = DoubanCrawlerItem()
@@ -57,9 +56,5 @@ class CommentsSpider(Spider):
             next_page = ''
         if next_page:
             # self.pages.append(next_page)
-            yield Request(url=next_page, callback=self.parse_next_page, dont_filter=True)
-        # else:
-            # for p in self.pages:
-                # print("parse_next_page: prepare to parse comments ", p)
-                # yield Request(url=p, callback=self.parse_comment)
+            yield Request(url=next_page, callback=self.parse_comments)
 
