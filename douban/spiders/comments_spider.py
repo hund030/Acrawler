@@ -4,7 +4,7 @@ from scrapy import Spider
 from scrapy import Selector
 from scrapy.http import Request
 from douban.dns_cache import _setDNSCache
-from douban.items import DoubanCrawlerItem
+from douban.items import DoubanCommentItem
 
 class CommentsSpider(Spider):
     name = "comments"
@@ -25,7 +25,7 @@ class CommentsSpider(Spider):
         _setDNSCache()
 
         # crawl comments
-        comment = DoubanCrawlerItem()
+        comment = DoubanCommentItem()
         # print(response.body)
         for item in response.xpath('//div[@class="comment-item"]'):
             # 短评对应的电影id
