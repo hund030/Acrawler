@@ -40,8 +40,8 @@ class CommentsSpider(Spider):
             comment['rating'] = item.xpath('div[@class="comment"]/h3/span[@class="comment-info"]/span[2]/@class').extract()[0].strip()
             if comment['rating'] == 'comment-time':
                 comment['rating'] = 'none'
-            # 评论时间
-            comment['comment_time'] = item.xpath('div[@class="comment"]/h3/span[@class="comment-info"]/span[@class="comment-time "]/@title').extract()
+            # 评论日期
+            comment['comment_date'] = item.xpath('div[@class="comment"]/h3/span[@class="comment-info"]/span[@class="comment-time "]/@title').extract()
             # 评论内容
             comment['content'] = item.xpath('div[@class="comment"]/p/span[@class="short"]/text()').extract()[0].strip()
             # 评论者名字（唯一）

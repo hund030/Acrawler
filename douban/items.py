@@ -7,7 +7,7 @@ class DoubanCommentItem(Item):
     votes = Field()
     user_status = Field()
     rating = Field()
-    comment_time = Field()
+    comment_date = Field()
     comment_id = Field()
     movie_id = Field()
 
@@ -39,3 +39,10 @@ class DoubanMovieItem(Item):
     labels = Field()
     collections = Field()
     wishes = Field()
+
+class DoubanReviewItem(DoubanCommentItem):
+    comment_time = Field()
+    useless_votes = Field()
+    replies = Field() # hold on
+    forwards = Field()
+    review_title = Field()
