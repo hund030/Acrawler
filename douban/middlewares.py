@@ -6,6 +6,29 @@
 # https://docs.scrapy.org/en/latest/topics/spider-middleware.html
 
 from scrapy import signals
+from selenium import webdriver
+from selenium.webdriver.common.action_chains import ActionChains
+from scrapy.http import HtmlResponse
+
+options = webdriver.ChromeOptions()
+options.binary_location = '/usr/bin/google-chrome'
+options.add_argument('headless')
+options.add_argument('window-size=1200x600')
+
+class SeleniumMiddleware(object):
+    def process_request(self, request, spider):
+        if spider.name == "movies":
+            driver = webdriver.Chrome(chrome_options=options)
+            driver.get(request.url)
+            driver.implicitly_wait(3)
+            '''
+            action = driver.find_element_by_path()
+            for i in range(0, 20):
+                ActionChains(driver).move_to_element(action).click(action).perform()
+            '''
+            page = driver.page_source
+            driver.close()
+            yield HtmlResponse(request.url, body=page, encoding='utf-8', request=request)
 
 
 class DoubanSpiderMiddleware(object):
