@@ -14,7 +14,6 @@ class DoubanCommentItem(Item):
 class DoubanMovieItem(Item):
     movie_id = Field()
     movie_name = Field()
-    date_published = Field()
     director = Field()
     author = Field()
     actors = Field()
@@ -22,18 +21,27 @@ class DoubanMovieItem(Item):
     official_website = Field()
     region_made = Field()
     language = Field()
+    date_published = Field()
     movie_length = Field()
     alias = Field()
-    description = Field()
+
     votes = Field()
-    awards = Field()
     average_rating = Field()
     stars5_ratings = Field()
     stars4_ratings = Field()
     stars3_ratings = Field()
     stars2_ratings = Field()
     stars1_ratings = Field()
+
+    description = Field()
+    awards = Field() # hold on
     recommendations = Field()
     labels = Field()
     collections = Field()
     wishes = Field()
+
+class DoubanReviewItem(DoubanCommentItem):
+    useless_votes = Field()
+    replies = Field() # hold on
+    forwards = Field()
+    review_title = Field()
