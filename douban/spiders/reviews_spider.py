@@ -36,7 +36,7 @@ class ReviewsSpider(Spider):
         review['user_name'] = main.xpath('header[@class="main-hd"]/a[1]/span/text()').get()
         review['user_id'] = main.xpath('header[@class="main-hd"]/a[1]/@href').get().split('/')[4]
         review['movie_id'] = main.xpath('header[@class="main-hd"]/a[2]/@href').get().split('/')[4]
-        # TODO:: review may don't have a rating
+        # TODO:: review may not have a rating
         review['rating'] = main.xpath('header[@class="main-hd"]/span[1]/@class').get().split(' ')[0]
         review['comment_time'] = main.xpath('header[@class="main-hd"]/span[@class="main-meta"]/text()').get()
 
