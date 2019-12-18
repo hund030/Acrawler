@@ -5,7 +5,7 @@ class DoubanCommentItem(Item):
     user_id = Field()
     content = Field()
     votes = Field()
-    user_status = Field()
+    user_status = Field() # 看过\想看
     rating = Field()
     comment_time = Field()
     comment_id = Field()
@@ -46,3 +46,13 @@ class DoubanReviewItem(DoubanCommentItem):
     forwards = Field()
     review_title = Field()
     review_id = Field()
+
+class DoubanReplyItem(Item):
+    user_name = Field()
+    user_id = Field()
+    content = Field()
+    reply_time = Field()
+    reply_id = Field()
+    movie_id = Field()
+    reply_to = Field()
+    
