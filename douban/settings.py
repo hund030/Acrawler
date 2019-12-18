@@ -33,7 +33,7 @@ LOG_LEVEL = 'INFO'
 # Configure a delay for requests for the same website (default: 0)
 # See https://docs.scrapy.org/en/latest/topics/settings.html#download-delay
 # See also autothrottle settings and docs
-DOWNLOAD_DELAY = 2
+DOWNLOAD_DELAY = 1.5
 # The download delay setting will honor only one of:
 #CONCURRENT_REQUESTS_PER_DOMAIN = 16
 #CONCURRENT_REQUESTS_PER_IP = 16
@@ -48,7 +48,7 @@ COOKIES_ENABLED = False
 DEFAULT_REQUEST_HEADERS = {
    'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3',
    'Accept-Language': 'en-US,en;q=0.9,ja;q=0.8',
-   'Cookie': 'trc_cookie_storage=taboola%2520global%253Auser-id%3Db9ab41aa-0c1a-4715-907f-aa8f4040027f-tuct44e6685; ps=y; ll="108231"; bid=eMF6VMcGv3I; push_noty_num=0; push_doumail_num=0; __utmv=30149280.20524; douban-profile-remind=1; __utmc=30149280; __utmz=30149280.1572398782.2.2.utmcsr=google|utmccn=(organic)|utmcmd=organic|utmctr=(not%20provided); __utmc=223695111; __utmz=223695111.1572398783.10.5.utmcsr=douban.com|utmccn=(referral)|utmcmd=referral|utmcct=/; _pk_ref.100001.4cf6=%5B%22%22%2C%22%22%2C1572410596%2C%22https%3A%2F%2Fwww.douban.com%2F%22%5D; _pk_ses.100001.4cf6=*; __utma=30149280.2122858775.1571993506.1572398782.1572410596.3; __utma=223695111.732041706.1571016580.1572398783.1572410596.11; __utmb=223695111.0.10.1572410596; ap_v=0,6.0; __utmt=1; dbcl2="205244608:Ub49naetKjY"; ck=Qoj3; __utmb=30149280.15.10.1572410596; _vwo_uuid_v2=DAE87A0A6F2D6BB3807C8167D1DD17652|832542a9f6351812633e580e7b21cd18; _pk_id.100001.4cf6=b607d7475c945823.1571016580.11.1572411068.1572398785.',
+   'Cookie': 'bid=PzIS6ZC88y8; douban-fav-remind=1; ll="108296"; _vwo_uuid_v2=D899BF602B260E6C74EE56AD0B06FD988|b290b6f99dd08b0372b953504a905add; push_noty_num=0; push_doumail_num=0; __utmv=30149280.20524; __utmc=30149280; __utmc=223695111; dbcl2="205244608:Ub49naetKjY"; ck=Qoj3; __utma=30149280.588368742.1567696504.1573144559.1573386102.22; __utmz=30149280.1573386102.22.12.utmcsr=google|utmccn=(organic)|utmcmd=organic|utmctr=(not%20provided); __utmt=1; __utmb=30149280.2.10.1573386102; _pk_ref.100001.4cf6=%5B%22%22%2C%22%22%2C1573386136%2C%22https%3A%2F%2Fwww.douban.com%2F%22%5D; _pk_ses.100001.4cf6=*; __utma=223695111.387609906.1570701972.1573144559.1573386136.19; __utmb=223695111.0.10.1573386136; __utmz=223695111.1573386136.19.9.utmcsr=douban.com|utmccn=(referral)|utmcmd=referral|utmcct=/; _pk_id.100001.4cf6=18e0e658035a3d9c.1570701972.20.1573386139.1573146993.',
    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.90 Safari/537.36',
 }
 

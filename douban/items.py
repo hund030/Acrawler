@@ -45,3 +45,4 @@ class DoubanReviewItem(DoubanCommentItem):
     replies = Field() # hold on
     forwards = Field()
     review_title = Field()
+    review_id = Field()
