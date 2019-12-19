@@ -20,7 +20,7 @@ class SeleniumMiddleware(object):
         if spider.name == "movies":
             driver = webdriver.Chrome(chrome_options=options)
             driver.get(request.url)
-            driver.implicitly_wait(3)
+            driver.implicitly_wait(1)
             '''
             action = driver.find_element_by_path()
             for i in range(0, 20):

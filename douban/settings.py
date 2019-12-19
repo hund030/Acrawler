@@ -15,6 +15,10 @@ SPIDER_MODULES = ['douban.spiders']
 NEWSPIDER_MODULE = 'douban.spiders'
 
 FEED_EXPORT_ENCODING = 'utf-8'
+SPLASH_URL = 'http://localhost:8050'
+DUPEFILTER_CLASS = 'scrapy_splash.SplashAwareDupeFilter'
+# HTTPCACHE_STORAGE = 'scrapy_splash.SplashAwareFSCacheStorage'
+
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
 #USER_AGENT = 'tutorial (+http://www.yourdomain.com)'
@@ -48,21 +52,25 @@ COOKIES_ENABLED = False
 DEFAULT_REQUEST_HEADERS = {
    'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3',
    'Accept-Language': 'en-US,en;q=0.9,ja;q=0.8',
-   'Cookie': 'bid=PzIS6ZC88y8; douban-fav-remind=1; ll="108296"; _vwo_uuid_v2=D899BF602B260E6C74EE56AD0B06FD988|b290b6f99dd08b0372b953504a905add; push_noty_num=0; push_doumail_num=0; __utmv=30149280.20524; __utmc=30149280; __utmc=223695111; dbcl2="205244608:Ub49naetKjY"; ck=Qoj3; __utma=30149280.588368742.1567696504.1573144559.1573386102.22; __utmz=30149280.1573386102.22.12.utmcsr=google|utmccn=(organic)|utmcmd=organic|utmctr=(not%20provided); __utmt=1; __utmb=30149280.2.10.1573386102; _pk_ref.100001.4cf6=%5B%22%22%2C%22%22%2C1573386136%2C%22https%3A%2F%2Fwww.douban.com%2F%22%5D; _pk_ses.100001.4cf6=*; __utma=223695111.387609906.1570701972.1573144559.1573386136.19; __utmb=223695111.0.10.1573386136; __utmz=223695111.1573386136.19.9.utmcsr=douban.com|utmccn=(referral)|utmcmd=referral|utmcct=/; _pk_id.100001.4cf6=18e0e658035a3d9c.1570701972.20.1573386139.1573146993.',
+   'Cookie': 'bid=PzIS6ZC88y8; douban-fav-remind=1; ll="108296"; _vwo_uuid_v2=D899BF602B260E6C74EE56AD0B06FD988|b290b6f99dd08b0372b953504a905add; __utmv=30149280.20524; __utmc=30149280; dbcl2="205244608:yc4gOw8LoLw"; ck=zvsv; __utma=30149280.588368742.1567696504.1576390671.1576678146.24; __utmz=30149280.1576678146.24.14.utmcsr=accounts.douban.com|utmccn=(referral)|utmcmd=referral|utmcct=/passport/login; push_noty_num=0; push_doumail_num=0; _pk_ref.100001.8cb4=%5B%22%22%2C%22%22%2C1576678176%2C%22https%3A%2F%2Fmovie.douban.com%2Fexplore%22%5D; _pk_id.100001.8cb4=1ab6cc7af92d0e51.1576678176.1.1576678176.1576678176.; _pk_ses.100001.8cb4=*; __utmt=1; __utmb=30149280.2.10.1576678146',
    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.90 Safari/537.36',
 }
 
 # Enable or disable spider middlewares
 # See https://docs.scrapy.org/en/latest/topics/spider-middleware.html
-# SPIDER_MIDDLEWARES = {
+SPIDER_MIDDLEWARES = {
+    'scrapy_splash.SplashDeduplicateArgsMiddleware': 100,
     # 'douban.middlewares.SeleniumMiddleware': 543,
-# }
+}
 
 # Enable or disable downloader middlewares
 # See https://docs.scrapy.org/en/latest/topics/downloader-middleware.html
-#DOWNLOADER_MIDDLEWARES = {
-#    'tutorial.middlewares.TutorialDownloaderMiddleware': 543,
-#}
+DOWNLOADER_MIDDLEWARES = {
+    # 'tutorial.middlewares.TutorialDownloaderMiddleware': 543,
+    'scrapy_splash.SplashCookiesMiddleware': 723,
+    'scrapy_splash.SplashMiddleware': 725,
+    'scrapy.downloadermiddlewares.httpcompression.HttpCompressionMiddleware': 810,
+}
 
 # Enable or disable extensions
 # See https://docs.scrapy.org/en/latest/topics/extensions.html
