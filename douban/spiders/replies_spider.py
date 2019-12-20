@@ -17,7 +17,6 @@ class RepliesSpider(Spider):
             for i in f:
                 url = 'https://movie.douban.com/subject/' + i.rstrip('\n') + '/reviews'
                 yield Request(url=url, callback=self.parse_reviews)
-                break
 
     def parse_reviews(self, response):
         _setDNSCache()
@@ -30,7 +29,6 @@ class RepliesSpider(Spider):
                     'args': {'wait': 5}
                     }
                 })
-            break
             # TODO::next page
             url = urljoin(response.url, response.xpath('//span[@class="next"]/link/@href').get())
             if url:
@@ -64,11 +62,25 @@ class RepliesSpider(Spider):
             reply['reply_to'] = ''
 
             yield reply
-            break
 
             try:
-                # TODO
-                reply_list = item.xpath('/div[@reply-list]')
+                reply_list = item.xpath('div[@class="reply-list"]')
+                parent_id = reply['reply_id']
+
+                for i in reply_list.xpath('div[@class="item reply-item"]'):
+                    reply['movie_id'] = response.url.split('/')[4]
+                    reply['reply_id'] = i.xpath('@data-cid').get()
+                    reply['reply_time'] = i.xpath('div[@class="comment-item-body"]/div[@class="comment-main"]/div[@class="meta-header"]/time/text()').get()
+                    reply['content'] = []
+                    for c in i.xpath('div[@class="comment-item-body"]/div[@class="comment-main"]/div[@class="comment-content"]/span/node()'):
+                        if c.xpath('text()').get():
+                            reply['content'].append(c.xpath('text()').get().strip())
+                        elif c.get().strip() != '<br>' and c.get().strip != '':
+                            reply['content'].append(c.get().strip())
+                    reply['user_name'] = i.xpath('div[@class="comment-item-body"]/div[@class="comment-main"]/div[@class="meta-header"]/a/text()').get()
+                    reply['user_id'] = i.xpath('div[@class="comment-item-body"]/div[@class="comment-main"]/div[@class="meta-header"]/a[1]/@href').get().split('/')[4]
+                    reply['reply_to'] = parent_id
+                    yield reply
             except:
                 pass
                 
@@ -77,5 +89,5 @@ class RepliesSpider(Spider):
         except:
             next_page = ''
 
-        # if next_page:
-            # yield Request(url=next_page, callback=self.parse_replies)
+        if next_page:
+            yield Request(url=next_page, callback=self.parse_replies)
