@@ -14,7 +14,11 @@ class RepliesSpider(Spider):
     def __init__(self):
         options = Options()
         options.headless = True
-        self.driver = webdriver.Firefox(options=options, executable_path=r'/home/hund030/geckodriver')
+        fp = webdriver.FirefoxProfile()
+        fp.set_preference('permissions.default.image', 2)
+        fp.set_preference('permissions.default.stylesheet', 2)
+        fp.set_preference('dom.ipc.plugins.enabled.libflashplayer.so', 'false')
+        self.driver = webdriver.Firefox(options=options, firefox_profile=fp, executable_path=r'/home/hund030/geckodriver')
         super(RepliesSpider, self).__init__()
     
     def start_requests(self):
@@ -39,13 +43,16 @@ class RepliesSpider(Spider):
     def parse_replies(self, response):
         _setDNSCache()
         self.driver.get(response.url)
-        timeout = 5
         self.driver.implicitly_wait(5)
 
         # crawl replies
         reply = DoubanReplyItem()
+        try:
+            comments = self.driver.find_elements_by_xpath('//div[@class="item comment-item"]')
+        except:
+            comments = []
 
-        for item in self.driver.find_elements_by_xpath('//div[@class="item comment-item"]'):
+        for item in comments:
             #回复对应的电影id
             reply['movie_id'] = response.url.split('/')[4]
             #回复的id
@@ -65,18 +72,39 @@ class RepliesSpider(Spider):
             reply['reply_to'] = ''
 
             yield reply
-            break
 
             try:
-                # TODO
-                reply_list = item.find_element_by_xpath('/div[@reply-list]')
+                reply_list = item.find_element_by_xpath('div[@class="reply-list"]')
+                parent_id = reply['reply_id']
+                # yield self.parse_reply_list(reply_list, reply["reply_id"])
+                try:
+                    get_more = reply_list.find_element_by_xpath('div[@class="replies-list-control"]/button')
+                    get_more.click()
+                    self.driver.implicitly_wait(5)
+                except:
+                    pass
+
+                for item in reply_list.find_elements_by_xpath('div[@class="item reply-item"]'):
+                    reply['movie_id'] = item.get_attribute('data-target_id')
+                    reply['reply_id'] = item.get_attribute('data-cid')
+                    reply['reply_time'] = item.find_element_by_xpath('div[@class="comment-item-body"]/div[@class="comment-main"]/div[@class="meta-header"]/time').text
+                    reply['content'] = []
+                    for c in item.find_elements_by_xpath('div[@class="comment-item-body"]/div[@class="comment-main"]/div[@class="comment-content"]/span'):
+                        if c.text.strip() != '<br>' and c.text.strip != '':
+                            reply['content'].append(c.text.strip())
+                    reply['user_name'] = item.find_element_by_xpath('div[@class="comment-item-body"]/div[@class="comment-main"]/div[@class="meta-header"]/a').text
+                    reply['user_id'] = item.find_element_by_xpath('div[@class="comment-item-body"]/div[@class="comment-main"]/div[@class="meta-header"]/a[1]').get_attribute("href").split('/')[4]
+                    reply['reply_to'] = parent_id
+                    yield reply
+
             except:
                 pass
+            break
                 
         try:
             next_page = response.urljoin(self.driver.find_element_by_xpath('//a[@class="next"]').get_attribute("href"))
         except:
-            next_page = ''
+            next_page = ""
 
-        # if next_page:
-            # yield Request(url=next_page, callback=self.parse_replies)
+        if next_page:
+            yield Request(url=next_page, callback=self.parse_replies)
