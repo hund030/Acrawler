@@ -5,7 +5,7 @@
 1. install [Miniconda](https://docs.conda.io/en/latest/miniconda.html)
 2. install g++
 3. create python3 enviroment
-4. install scrapy and scrapy-splash
+4. install scrapy and scrapy-splash and faker and maybe selenium
 5. install docker and run splash
 
 ```
@@ -14,6 +14,8 @@ conda create -n py3 python
 conda activate py3
 pip install Scrapy
 pip install scrapy-splash
+pip install faker
+pip install selenium
 sudo apt install docker.io
 tmux
 sudo docker run -p 8050:8050 scrapinghub/splash
