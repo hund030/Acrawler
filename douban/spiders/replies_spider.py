@@ -27,7 +27,8 @@ class RepliesSpider(Spider):
                 'splash': {
                     'endpoint': 'render.html',
                     'args': {'wait': 5}
-                    }
+                    },
+                'movie_id': response.url.split('/')[4]
                 })
             # TODO::next page
             url = urljoin(response.url, response.xpath('//span[@class="next"]/link/@href').get())
@@ -42,7 +43,9 @@ class RepliesSpider(Spider):
 
         for item in response.xpath('//div[@class="item comment-item"]'):
             #回复对应的电影id
-            reply['movie_id'] = response.url.split('/')[4]
+            reply['movie_id'] = response.meta.get('movie_id')
+            #回复的影评的id
+            reply['review_id'] = response.url.split('/')[4]
             #回复的id
             reply['reply_id'] = item.xpath('@data-cid').get()
             #回复时间
