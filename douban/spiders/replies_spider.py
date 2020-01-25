@@ -9,14 +9,13 @@ from urllib.parse import urljoin
 class RepliesSpider(Spider):
     name = "replies"
 
-    def __init__(self):
+    def __init__(self, index=''):
         super(RepliesSpider, self).__init__()
+        self.movie_id = index.strip('\n')
     
     def start_requests(self):
-        with open('index.txt') as f:
-            for i in f:
-                url = 'https://movie.douban.com/subject/' + i.rstrip('\n') + '/reviews'
-                yield Request(url=url, callback=self.parse_reviews)
+        url = 'https://movie.douban.com/subject/' + self.movie_id + '/reviews'
+        yield Request(url=url, callback=self.parse_reviews)
 
     def parse_reviews(self, response):
         _setDNSCache()
@@ -42,7 +41,9 @@ class RepliesSpider(Spider):
 
         for item in response.xpath('//div[@class="item comment-item"]'):
             #回复对应的电影id
-            reply['movie_id'] = response.url.split('/')[4]
+            reply['movie_id'] = self.movie_id
+            #回复的影评的id
+            reply['review_id'] = response.url.split('/')[4]
             #回复的id
             reply['reply_id'] = item.xpath('@data-cid').get()
             #回复时间

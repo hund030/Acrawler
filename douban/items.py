@@ -54,5 +54,6 @@ class DoubanReplyItem(Item):
     reply_time = Field()
     reply_id = Field()
     movie_id = Field()
+    review_id = Field()
     reply_to = Field()
     
